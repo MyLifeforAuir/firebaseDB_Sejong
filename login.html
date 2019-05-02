@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="src/css/기본 레이아웃.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<title>로그인</title>
+<!-- 로그인 폼 css -->
+<style>
+#main-header{
+  background-image: url('src/img/background1.png');
+  background-size: 1000px;
+  height: 130px;
+}
+ #background {
+   background-color: #474747;
+ }
+ #newlogin {
+		background-color: #848484;
+ }
+</style>
+</head>
+
+<body>
+  <div id="non-footer">
+    <header id="main-header">
+      <a href="#"><img src="src/img/타이틀.png" width="180"/></a> <!--추후 홈화면 링크 삽입-->
+      <div id="right">
+        <a href="login.html"><div onclick="login()" id="log-in-button">LOG-IN</div></a><!--추후 로그인 링크 삽입-->
+        <a href="#"><div onclick="join()" id="join-button">JOIN</div></a><!--추후 회원가입 링크 삽입-->
+      </div>
+    </header>
+
+    <nav id="navigation">
+      <ul>
+        <li><a class="nav-li" href="coquetier란.html">coquetier란?</a></li> <!--사이트 소개 링크 삽입-->
+        <li><a class="nav-li" href="list.html">칵테일 목록</a></li> <!--칵테일 목록 링크 삽입-->
+        <li><a class="nav-li" href="custom_cocktails.html">맞춤 칵테일 찾기</a></li> <!--맞춤 칵테일 찾기 링크 삽입-->
+        <li><a class="nav-li" href="검색창.html">검색</a></li> <!--검색창 링크 삽입-->
+      </ul>
+    </nav>
+<!--  로그인 폼 -->
+    <div class="container">
+        <h1>로그인 해주세요!</h1>
+
+        <div class="form-group">
+          <label for="email">Email address:</label>
+          <input type="email" class="form-control" id="email" style="width:1000px">
+        </div>
+
+        <div class="form-group">
+          <label for="pwd">Password:</label>
+          <input type="password" class="form-control" id="pwd" style="width:1000px">
+        </div>
+
+        <button type="button" class="btn btn-default login">로그인</button>
+
+    </div>
+  </div>
+<!-- 로그인 폼 끝 -->
+  <footer id="main-footer">
+    <p>e-mail : webp2018@gmail.com&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp주소 : 서울특별시 광진구 능동로 209</p>
+  </footer>
+
+
+  <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+  <script language="javascript">
+    var firebaseEmailAuth; //파이어베이스 email 인증 모듈 전역변수
+    var firebaseDatabase; //파이어베이스 db 모듈 전역변수
+    var userInfo; //가입한 유저의 정보. object 타입
+
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyBsJN-SATS2VjC4BrYiWoBQNUNPjeujmro",
+      authDomain: "cocktail-11655.firebaseapp.com",
+      databaseURL: "https://cocktail-11655.firebaseio.com",
+      projectId: "cocktail-11655",
+      storageBucket: "cocktail-11655.appspot.com",
+      messagingSenderId: "1065973670658"
+    };
+    firebase.initializeApp(config);
+
+      firebaseEmailAuth = firebase.auth();
+      firebaseDatabase = firebase.database();
+
+      //제이쿼리를 사용한다.
+    $(document).ready(function(){
+
+      //로그인 버튼 눌렀을 때
+      $(document).on('click','.login',function(){
+
+        //제이쿼리 선택자와 val() 함수를 이용해서 이메일,비밀번호 값을 가져온다.
+        var email = $('#email').val();
+        var password = $('#pwd').val();
+
+    //파이어베이스 이메일 로그인 함수
+    firebaseEmailAuth.signInWithEmailAndPassword(email, password).then(function(firebaseUser) {
+
+       //성공하면 firebaseUser에 유저 정보 값이 담겨 넘어온다.
+       loginSuccess(firebaseUser);
+   })
+  .catch(function(error) {
+       // 실패했을 때 에러 처리
+       alert(error);
+       alert("로그인 실패");
+  });
+
+      });
+    });
+
+    //로그인 성공했을 때
+    function loginSuccess(firebaseUser){
+       alert("로그인 성공");
+
+    //로그인 성공한 유저 id 확인해 보기 - firebase database에 접근해서 데이터 조회 하는 함수
+   firebaseDatabase.ref("users/"+firebaseUser.uid).once('value').then(function(snapshot){
+        alert(user.email);
+    });
+
+    //메인 페이지로 이동
+    window.location.href="메인 화면.html";
+    }
+    </script>
+</body>
+</html>

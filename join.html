@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <title>JOIN</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!-- 가입 폼 시작 -->
+<div class="container">
+    <h1>환영합니다!</h1>
+    <div class="form-group">
+      <label for="name">이름</label>
+      <input type="text" class="form-control" id="name">
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" id="email">
+    </div>
+
+    <div class="form-group">
+      <label for="pwd">비밀번호</label>
+      <input type="password" class="form-control" id="pwd">
+    </div>
+    <div class="form-group">
+      <label for="taste">칵테일 취향</label>
+      <table >
+        <tr>
+          <td><label for="taste">씁쓸한 맛</label></td>
+          <td>&nbsp&nbsp&nbsp<td>
+          <td><input type="checkbox" name="tastebox" id="taste1" value="씁슬한 맛"></td>
+          <td>&nbsp&nbsp&nbsp<td>
+          <td><label for="taste">달콤한 맛</label></td>
+          <td>&nbsp&nbsp&nbsp<td>
+          <td><input type="checkbox" name="tastebox" id="taste2" value="달콤한 맛"></td>
+          <td>&nbsp&nbsp&nbsp<td>
+          <td><label for="taste">상큼한 맛</label></td>
+          <td>&nbsp&nbsp&nbsp<td>
+          <td><input type="checkbox" name="tastebox" id="taste3" value="상큼한 맛"></td>
+          <td>&nbsp&nbsp&nbsp<td>
+          <td><label for="taste">새콤한 맛</label></td>
+          <td>&nbsp&nbsp&nbsp<td>
+          <td><input type="checkbox" name="tastebox" id="taste4" value="새콤한 맛"></td>
+          <td>&nbsp&nbsp&nbsp<td>
+          <td><label for="taste">기타</label></td>
+          <td>&nbsp&nbsp&nbsp<td>
+          <td><input type="checkbox" name="tastebox" id="taste5" value="기타"></td>
+        </tr>
+    </table>
+    </div>
+
+    <button type="button" class="btn btn-default join">가입</button>
+
+</div>
+<!-- 가입 폼 끝 -->
+
+
+  <!-- 파이어베이스 프로젝트 연동 -->
+
+<script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js">
+    </script>
+<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
+
+<script>
+   var firebaseEmailAuth; //파이어베이스 email 인증 모듈 전역변수
+   var firebaseDatabase; //파이어베이스 db 모듈 전역변수
+   var userInfo; //가입한 유저의 정보. object 타입
+   var taste=""; //체크박스 선택한 맛 저장 변수
+   var count=0;
+   var check=""; //선택된 맛 id 저장 변수
+
+    const firebase = require("firebase");
+// Required for side-effects
+require("firebase/firestore");
+    
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBsJN-SATS2VjC4BrYiWoBQNUNPjeujmro",
+    authDomain: "cocktail-11655.firebaseapp.com",
+    databaseURL: "https://cocktail-11655.firebaseio.com",
+    projectId: "cocktail-11655",
+    storageBucket: "cocktail-11655.appspot.com",
+    messagingSenderId: "1065973670658"
+  };
+  firebase.initializeApp(config);
+    
+ /*   firebase.initializeApp({
+ apiKey: "AIzaSyBsJN-SATS2VjC4BrYiWoBQNUNPjeujmro",
+    authDomain: "cocktail-11655.firebaseapp.com",
+  projectId: "cocktail-11655",
+});
+*/
+// Initialize Cloud Firestore through Firebase
+var db = firebase.firestore();
+    
+    firebaseEmailAuth = firebase.auth();
+    firebaseDatabase = firebase.database();
+
+//제이쿼리
+$(document).ready(function(){
+
+  //가입버튼 눌렀을 때 작동하는 함수
+  $(document).on('click','.join',function(){
+    // 체크박스 맛 선택 하나라도 할 시
+    if($('#taste1').is(":checked") || $('#taste2').is(":checked") || $('#taste3').is(":checked")
+    || $('#taste4').is(":checked")  || $('#taste5').is(":checked"))
+    {
+      //체크박스 5개 검사하며 체크된 맛 taste 변수에 이어서 저장
+      for(var i=1; i<=5;i++){
+        check="#taste"+i;
+        if($(check).is(":checked")) {   taste += $(check).val() + ","; }
+      }
+          //jquery를 이용해서 입력된 값을 가져온다.
+          var email = $('#email').val();
+          var password = $('#pwd').val();
+          name = $('#name').val();
+
+
+      //이메일로 가입 버튼 눌렀을 때 작동되는 함수 - firebase 인증 모듈
+      firebaseEmailAuth.createUserWithEmailAndPassword(email, password).then(function(user) {
+
+
+          userInfo = user; //가입 후 callBack 함수로 생성된 유저의 정보가 user에 담겨서 넘어온다. 전역변수에 할당.
+
+          //성공했을 때 작동되는 함수
+          logUser();
+
+      }, function(error) {
+          //에러가 발생했을 때
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          alert(errorMessage);
+
+      });
+
+      //가입 성공했을 때 호출 되는 함수 - 위의 firebase의 인증 모듈과 다른 database 모듈임을 확인하자.
+      function logUser(){
+//firebase
+          var ref = firebaseDatabase.ref("users/"+userInfo.uid); //저장될 곳을 users라는 부모 키를 레퍼런스로 지정.
+
+          //저장 형식
+          var obj = {
+              email: email,
+              name: name,
+              taste: taste,
+          };
+
+          ref.push(obj); // 고유한 자식 키가 하나 생셩이 되면서 json 삽입
+          alert("가입성공");
+//firestore
+          
+          db.collection("users").add({
+        email: email,
+        name: name,
+        taste: taste,
+})
+.then(function(docRef) {
+    console.log("Document written with ID: ", docRef.id);
+})
+.catch(function(error) {
+    console.error("Error adding document: ", error);
+});
+          
+          //메인 페이지로 이동시키고 세션 저장시키기
+          window.close();
+      }
+}
+  //체크박스 하나도 선택 안됬을 시 가입 안됨
+        else {
+         alert("칵테일 취향을 선택해주세요");
+        }
+  });
+});
+  </script>
+
+</body>
+</html>

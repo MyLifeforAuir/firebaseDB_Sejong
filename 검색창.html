@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>180604</title>
+  <link rel="stylesheet" href="src/css/list.css">
+  <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-database.js"></script>
+  <script src="src/js/jquery-3.3.1.min.js"></script>
+  <script src="src/js/firebase.js"></script>
+  <script type="text/javascript" src="src/js/검색.js"></script>
+
+  <!--본문 부분의 스타일 설정-->
+  <style>
+    #main-header {
+      background-image: url('src/img/background1.png');
+      background-size: 1000px;
+      height: 130px;
+    }
+
+    #content {
+      background-color: white;
+      overflow: hidden;
+      align-items: center;
+    }
+
+    #content input[type="text"] {
+      width: 300px;
+      height: 21px;
+      border: 3px solid #474747;
+      margin: 0;
+    }
+
+    #content input[type="text"]:focus {
+      outline: 0;
+    }
+
+    #content input[type="submit"] {
+      width: 75px;
+      height: 29px;
+      background-color: #474747;
+      color: white;
+      border: 0;
+      cursor: pointer;
+      padding-bottom: 3px;
+      font-size: 13px;
+    }
+
+    #content input[type="submit"]:focus {
+      outline: 0;
+    }
+
+    .yes h4{
+      font-weight: 400;
+      color: grey;
+      cursor: pointer;
+    }
+
+    .cocktail_name {
+      line-height: 20px;
+      font-weight: 400;
+      color: grey;
+      cursor: pointer;
+    }
+
+    #result1{
+      line-height: 30px;
+      font-weight: 400;
+      color: grey;
+    }
+
+    .none h4{
+      line-height: 20px;
+      font-weight: 400;
+      color: lightgrey;
+    }
+
+    .section {
+      margin-left: 50px;
+    }
+
+    .searchingg {
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
+
+    .none {
+      margin-left: 20px;
+      color: darkgrey;
+    }
+
+    .section hr {
+      margin-top: 50px;
+      margin-bottom: 50px;
+    }
+
+    .result {
+      color: grey;
+    }
+    .found {
+      background-color: #cbb7ea;
+    }
+  </style>
+
+
+</head>
+
+
+
+
+<body>
+  <div id="non-footer">
+    <header id="main-header">
+      <a href="메인 화면.html">
+        <img src="src/img/타이틀.png" width="180" />
+      </a>
+      <!--추후 홈화면 링크 삽입-->
+      <div id="right">
+        <a href="main.html">
+          <div id="log-in-button">LOG-OUT</div>
+        </a>
+        <!--추후 로그인 링크 삽입-->
+      </div>
+    </header>
+
+    <nav id="navigation">
+      <ul>
+        <li><a class="nav-li" href="coquetier란.html">coquetier란?</a></li> <!--사이트 소개 링크 삽입-->
+        <li><a class="nav-li" href="list.html">칵테일 목록</a></li> <!--칵테일 목록 링크 삽입-->
+        <li><a class="nav-li" href="custom_cocktails.html">맞춤 칵테일 찾기</a></li> <!--맞춤 칵테일 찾기 링크 삽입-->
+        <li><a class="nav-li" href="검색창.html">검색</a></li> <!--검색창 링크 삽입-->
+      </ul>
+    </nav>
+
+
+
+
+    <div id="content">
+      <div class="section">
+        <form method="get" name="searching_n" id="searching_id" class="searchingg">
+          <input type="text" name="value" id="word" />
+          <input type="submit" name="submit" id="btn" value="검색" onclick="searching_c();searching_f();" />
+        </form>
+      </div>
+
+      <div class="section coquetier">
+        <h3>coquetier란?</h3>
+        <div id="result1"></div>
+        <hr/>
+      </div>
+
+      <div class="section category">
+        <h3>칵테일 목록</h3>
+        <div id="result2"></div>
+        <hr/>
+      </div>
+    </div>
+
+
+  </div>
+  <div id="modal">
+    <div id="modal-content">
+      <img id="modal-close" src="src/img/close_btn.png">
+      <div id="modal-content-wrap">
+        <div id="modal-left-content">
+          <img id="modal-cocktail-img" src="src/img/cocktails/갓마더.png" />
+          <h2 id="modal-korName"></h2>
+          <p id="modal-engName"></p>
+        </div>
+        <div id="modal-right-content">
+          <div id="modal-right-top">
+            <dl id="modal-list">
+              <dt>맛</dt>
+              <dd id="modal-taste"></dd>
+              <dt>기법</dt>
+              <dd id="modal-technique"></dd>
+              <dt>베이스</dt>
+              <dd id="modal-base"></dd>
+              <dt>글라스</dt>
+              <dd id="modal-glass"></dd>
+            </dl>
+            <hr class="line" />
+          </div>
+          <div id="modal-right-bottom">
+            <div id="modal-description"></div>
+            <hr class="line" />
+            <div id="modal-recipe"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer id="main-footer">
+    <p>e-mail : webp2018@gmail.com&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp주소 : 서울특별시 광진구 능동로 209</p>
+  </footer>
+</body>
+
+</html>

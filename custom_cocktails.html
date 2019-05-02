@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>cocktail list</title>
+  <link rel="stylesheet" type="text/css" href="src/css/list.css">
+  <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-database.js"></script>
+  <script src="src/js/jquery-3.3.1.min.js"></script>
+  <script src="src/js/firebase.js"></script>
+
+<style>
+#main{ /*메인 높이 450px*/
+  height:450px;
+}
+#main-center{ /*가운데 정렬 및 배경색 변경*/
+  margin:auto;
+  margin-top: 50px;
+  text-align: center;
+  width: 600px;
+  height:400px;
+  background-color: #f2d7f3;
+}
+#alcohol{
+  position:relative;
+  top:50px;
+}
+#cock_search{ /*relative로 위치 선정 및 배경색, 글자색 변경*/
+  position:relative;
+  top:80px;
+  left:200px;
+  width:50px;
+  height:25px;
+  background-color: #d35ed7;
+  color:white;
+}
+#cock_search:hover{ /*hover 시 글자색 변경*/
+  color:black;
+}
+</style>
+</head>
+
+
+<body>
+  <div id="non-footer">
+    <header id="main-header">
+      <a href="메인 화면.html">
+        <img src="src/img/title.png" width="180" />
+      </a>
+      <!--홈화면 링크-->
+      <div id="right">
+        <a href="main.html"><div id="log-in-button">LOG-OUT</div></a><!--추후 로그인 링크 삽입-->
+        <!--로그아웃 링크-->
+      </div>
+    </header>
+
+    <nav id="navigation">
+      <ul>
+        <li><a class="nav-li" href="coquetier란.html">coquetier란?</a></li> <!--사이트 소개 링크 삽입-->
+        <li><a class="nav-li" href="list.html">칵테일 목록</a></li> <!--칵테일 목록 링크 삽입-->
+        <li><a class="nav-li" href="custom_cocktails.html">맞춤 칵테일 찾기</a></li> <!--맞춤 칵테일 찾기 링크 삽입-->
+        <li><a class="nav-li" href="검색창.html">검색</a></li> <!--검색창 링크 삽입-->
+      </ul>
+    </nav>
+
+    <div id="main">
+        <div id="main-center">
+          <form action="cocktails_result.html" method="get"> <!--get 방식으로 value 넘겨주기-->
+          <div id="taste">
+          <br>
+          <h3>| 맛 |</h3>
+          <input type="radio" name="taste_" id="1" value="bitter"><label for="1">씁쓸한 맛 &nbsp</label> <!--라벨링 해줌으로써 글자 클릭시 버튼 클릭됨-->
+          <input type="radio" name="taste_" id="2" value="sweet"><label for="2">달콤한 맛 &nbsp</label> <!--value를 넘기기위해 영어로 설정-->
+          <input type="radio" name="taste_" id="3" value="fresh"><label for="3">상큼한 맛<br><br></label>
+          <input type="radio" name="taste_" id="4" value="sour"><label for="4">새콤한 맛 &nbsp</label>
+          <input type="radio" name="taste_" id="5" value="etc"><label for="5">기타</label>
+          </div>
+          <div id="alcohol">
+            <h3>| 도수 |</h3>
+          &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="alcol_" id="a" value="upto10"><label for="a"> 0% ~ 10%</label>
+          &nbsp&nbsp&nbsp&nbsp<input type="radio" name="alcol_" id="b" value="upto20"><label for="b">10% ~ 20%<br><br></label>
+          <input type="radio" name="alcol_" id="c" value="upto30"><label for="c">20% ~ 30% &nbsp&nbsp&nbsp</label>
+          <input type="radio" name="alcol_" id="d" value="over30"><label for="d">30% ~</label>
+          </div>
+          <input type="submit" id="cock_search" value="검색"/> <!--submit으로 값을 넘겨줌-->
+      </form>
+        </div>
+    </div>
+
+
+  <footer id="main-footer">
+    <p>e-mail : webp2018@gmail.com&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp주소 : 서울특별시 광진구 능동로 209</p>
+  </footer>
+</body>
+
+</html>

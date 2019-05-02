@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>cocktail list</title>
+  <link rel="stylesheet" type="text/css" href="src/css/list.css">
+  <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase-database.js"></script>
+  <script src="src/js/jquery-3.3.1.min.js"></script>
+  <script src="src/js/firebase.js"></script>
+  <script src="src/js/list.js"></script>
+</head>
+
+
+<body>
+  <div id="non-footer">
+    <header id="main-header">
+      <a href="메인 화면.html">
+        <img src="src/img/title.png" width="180" />
+      </a>
+      <div id="right">
+      <a href="login.html"><div id="log-in-button">LOG-OUT</div></a><!--추후 로그인 링크 삽입-->
+        <!--추후 회원가입 링크 삽입-->
+      </div>
+    </header>
+
+    <nav id="navigation">
+      <ul>
+        <li><a class="nav-li" href="coquetier란.html">coquetier란?</a></li> <!--사이트 소개 링크 삽입-->
+        <li><a class="nav-li" href="list.html">칵테일 목록</a></li> <!--칵테일 목록 링크 삽입-->
+        <li><a class="nav-li" href="custom_cocktails.html">맞춤 칵테일 찾기</a></li> <!--맞춤 칵테일 찾기 링크 삽입-->
+        <li><a class="nav-li" href="검색창.html">검색</a></li> <!--검색창 링크 삽입-->
+      </ul>
+    </nav>
+
+
+    <div id="main">
+      <div id="aside">
+        <div id="aside-wrapper">
+          <div id="main-aside">
+            <a class="aside-list bold" id="total" href="#">- ㄱㄴㄷ 순</a>
+            <br/>
+            <!-- <a class="aside-list" href="#">- ㄱㄴㄷ 순</a>
+            <br/> -->
+            <a class="aside-list" id="recommend" href="#">- 추천순</a>
+            <br/>
+          </div>
+        </div>
+      </div>
+      <div id="total-wrap">
+        <div id="paper-wrapper">
+          <div id="paper-center">
+          </div>
+        </div>
+        <nav class="pagination" role="navigation" aria-label="Pagination">
+          <ol>
+            <li class="pagination-page">
+              <a class="paging is-active" aria-label="1" tabindex="-1">1</a>
+            </li>
+            <li>
+              <a class="paging" aria-label="2">2</a>
+            </li>
+            <li>
+              <a class="paging" aria-label="3">3</a>
+            </li>
+            <li>
+              <a class="paging" aria-label="4">4</a>
+            </li>
+            <li>
+              <a class="paging" aria-label="5">5</a>
+            </li>
+            <li>
+              <a class="paging" aria-label="6">6</a>
+            </li>
+            <li>
+              <a class="paging" aria-label="7">7</a>
+            </li>
+            <li>
+              <a class="paging" aria-label="8">8</a>
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+  </div>
+  <div id="modal">
+    <div id="modal-content">
+      <img id="modal-close" src="src/img/close_btn.png">
+      <div id="modal-content-wrap">
+        <div id="modal-left-content">
+          <img id="modal-cocktail-img" src="src/img/cocktails/갓마더.png" />
+          <h2 id="modal-korName"></h2>
+          <p id="modal-engName"></p>
+        </div>
+        <div id="modal-right-content">
+          <div id="modal-right-top">
+            <dl id="modal-list">
+              <dt>맛</dt>
+              <dd id="modal-taste"></dd>
+              <dt>기법</dt>
+              <dd id="modal-technique"></dd>
+              <dt>베이스</dt>
+              <dd id="modal-base"></dd>
+              <dt>글라스</dt>
+              <dd id="modal-glass"></dd>
+            </dl>
+            <hr class="line" />
+          </div>
+          <div id="modal-right-bottom">
+            <div id="modal-description"></div>
+            <hr class="line" />
+            <div id="modal-recipe"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer id="main-footer">
+    <p>e-mail : webp2018@gmail.com&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp주소 : 서울특별시 광진구 능동로 209</p>
+  </footer>
+</body>
+
+</html>
